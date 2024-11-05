@@ -48,6 +48,7 @@ export const cmd_symbols:{[name:string]: string} =
 	"ell": "ℓ",
 	"emptyset": "Ø",
 	"equiv": "≡",
+	"estimates": "≙",
 	"exists": "∃",
 	"flat": "♭",
 	"forall": "∀",
@@ -181,7 +182,13 @@ export const cmd_symbols:{[name:string]: string} =
 	"displaystyle": " ",
 	",": " ",
 	":": " ",
-	";": " "
+	";": " ",
+
+	"C": "ℂ",
+	"L": "𝕃",
+	"N": "ℕ",
+	"R": "ℝ",
+	"Z": "ℤ",
 };
 
 
