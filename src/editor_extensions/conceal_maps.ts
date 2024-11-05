@@ -189,6 +189,10 @@ export const cmd_symbols:{[name:string]: string} =
 	"N": "ℕ",
 	"R": "ℝ",
 	"Z": "ℤ",
+
+	"vecf": "\u20D7f",
+	"vecx": "\u20D7x",
+	"vecy": "\u20D7y",
 };
 
 
