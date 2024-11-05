@@ -53,6 +53,8 @@ export class Context {
 
 		ctx.mode.text = !inCode && !inMath;
 
+		ctx.mode.quote = isWithinQuote(state);
+
 		return ctx;
 	}
 
@@ -194,6 +196,14 @@ const isWithinInlineEquation = (state: EditorState):boolean => {
 	const res = escalateToToken(cursor, Direction.Backward, "math-begin");
 
 	return !res?.name.contains("math-block");
+}
+
+const isWithinQuote = (state: EditorState):boolean => {
+	const pos = state.selection.main.to;
+	const tree = syntaxTree(state);
+
+	const syntaxNode = tree.resolveInner(pos, 0);
+	return escalateToToken(syntaxNode.cursor(), null, "quote") != null;
 }
 
 /**

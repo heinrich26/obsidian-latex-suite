@@ -105,7 +105,7 @@ function shouldShowTooltip(state: EditorState, ctx: Context): boolean {
 	if (!ctx.mode.inMath()) return false;
 
 	const isLivePreview = state.field(editorLivePreviewField);
-	if (ctx.mode.blockMath && isLivePreview) return false;
+	if (ctx.mode.blockMath && (isLivePreview && !ctx.mode.quote)) return false;
 
 	// FIXME: eqnBounds can be null
 	const eqnBounds = ctx.getBounds();
@@ -138,6 +138,7 @@ export const cursorTooltipBaseTheme = EditorView.baseTheme({
 		},
 		"& mjx-container": {
 			padding: "2px !important",
+			margin: "0px",
 		},
 	}
 });
