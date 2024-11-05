@@ -347,10 +347,13 @@ function concealBraKet(eqn: string): ConcealSpec[] {
 	return specs;
 }
 
-function concealSet(eqn: string): ConcealSpec[] {
+function concealWrapping(eqn: string, symbol: string, newPrefix: string, newSuffix: string): ConcealSpec[] {
 	const specs: ConcealSpec[] = [];
+	
+	const regexStr = "\\\\" + symbol + "{";
+	const symbolRegex = new RegExp(regexStr, "g");
 
-	for (const match of eqn.matchAll(/\\set\{/g)) {
+	for (const match of eqn.matchAll(symbolRegex)) {
 		const commandStart = match.index;
 		// index of the "{"
 		const contentStart = commandStart + match[0].length - 1;
@@ -363,9 +366,9 @@ function concealSet(eqn: string): ConcealSpec[] {
 			// Hide "\set"
 			{ start: commandStart, end: contentStart, text: "" },
 			// Replace the "{"
-			{ start: contentStart, end: contentStart + 1, text: "{", class: "cm-bracket" },
+			{ start: contentStart, end: contentStart + 1, text: newPrefix, class: "cm-bracket" },
 			// Replace the "}"
-			{ start: contentEnd, end: contentEnd + 1, text: "}", class: "cm-bracket" },
+			{ start: contentEnd, end: contentEnd + 1, text: newSuffix, class: "cm-bracket" },
 		));
 	}
 
@@ -454,7 +457,9 @@ export function conceal(view: EditorView): ConcealSpec[] {
 					...concealModified_A_to_Z_0_to_9(eqn, mathbb),
 					...concealText(eqn),
 					...concealBraKet(eqn),
-					...concealSet(eqn),
+					...concealWrapping(eqn, "set", "{", "}"),
+					...concealWrapping(eqn, "abs", "|", "|"),
+					...concealWrapping(eqn, "norm", "||", "||"),
 					...concealFraction(eqn),
 					...concealOperators(eqn, operators)
 				];
