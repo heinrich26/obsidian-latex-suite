@@ -45,6 +45,7 @@ export class Mode {
 	codeMath: boolean;
 	code: boolean;
 	textEnv: boolean;
+	quote: boolean;
 
 	/**
 	 * Whether the state is inside an equation bounded by $ or $$ delimeters.
@@ -77,6 +78,7 @@ export class Mode {
 		this.inlineMath = false;
 		this.code = false;
 		this.textEnv = false;
+		this.quote = false;
 	}
 
 	invert() {
@@ -86,6 +88,7 @@ export class Mode {
 		this.codeMath = !this.codeMath;
 		this.code = !this.code;
 		this.textEnv = !this.textEnv;
+		this.quote = !this.quote;
 	}
 
 	static fromSource(source: string): Mode {
