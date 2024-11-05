@@ -55,6 +55,8 @@ export class Context {
 
 		ctx.mode.quote = isWithinQuote(state);
 
+		ctx.mode.quote = isWithinQuote(state);
+
 		return ctx;
 	}
 
