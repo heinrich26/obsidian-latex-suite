@@ -378,7 +378,7 @@ function concealWrapping(eqn: string, symbol: string, newPrefix: string, newSuff
 function concealFraction(eqn: string): ConcealSpec[] {
 	const concealSpecs: ConcealSpec[] = [];
 
-	for (const match of eqn.matchAll(/\\(frac){/g)) {
+	for (const match of eqn.matchAll(/\\(frac|dfrac|tfrac|gfrac){/g)) {
 		// index of the closing bracket of the numerator
 		const numeratorEnd = findMatchingBracket(eqn, match.index, "{", "}", false);
 		if (numeratorEnd === -1) continue;
