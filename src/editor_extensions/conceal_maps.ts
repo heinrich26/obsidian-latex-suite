@@ -196,7 +196,10 @@ export const spaces: {[name:string]: string} = {
 	" ": "·",
 	",": "·",
 	":": "·",
-	";": "·",
+	";": "·"
+}
+
+export const tabs: {[name:string]: string} = {
 	"qquad": "→",
 	"quad": "→",
 }

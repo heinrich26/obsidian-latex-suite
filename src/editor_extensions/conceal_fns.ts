@@ -5,7 +5,7 @@ import { EditorView } from "@codemirror/view";
 import { getEquationBounds } from "src/utils/context";
 import { findMatchingBracket } from "src/utils/editor_utils";
 import { ConcealSpec, mkConcealSpec } from "./conceal";
-import { greek, cmd_symbols, spaces, map_super, map_sub, fractions, brackets, mathscrcal, mathbb, operators } from "./conceal_maps";
+import { greek, cmd_symbols, spaces, tabs, map_super, map_sub, fractions, brackets, mathscrcal, mathbb, operators } from "./conceal_maps";
 
 
 function escapeRegex(regex: string) {
@@ -464,7 +464,8 @@ export function conceal(view: EditorView): ConcealSpec[] {
 					...concealSymbols(eqn, "_", "", map_sub),
 					...concealSymbols(eqn, "\\\\frac", "", fractions),
 					...concealSymbols(eqn, "\\\\", "", ALL_SYMBOLS, undefined, false),
-					...concealSymbols(eqn, "\\\\", "", spaces, "cm-concealed-control", false),
+					...concealSymbols(eqn, "\\\\", "", spaces, "cm-concealed-control", true),
+					...concealSymbols(eqn, "\\\\", "", tabs, "cm-concealed-control", false),
 					...concealSupSub(eqn, true, ALL_SYMBOLS),
 					...concealSupSub(eqn, false, ALL_SYMBOLS),
 					...concealModifier(eqn, "hat", "\u0302"),
