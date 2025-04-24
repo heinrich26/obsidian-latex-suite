@@ -200,6 +200,14 @@ const isWithinInlineEquation = (state: EditorState):boolean => {
 	return !res?.name.contains("math-block");
 }
 
+const isWithinQuote = (state: EditorState):boolean => {
+	const pos = state.selection.main.to;
+	const tree = syntaxTree(state);
+
+	const syntaxNode = tree.resolveInner(pos, 0);
+	return escalateToToken(syntaxNode.cursor(), null, "quote") != null;
+}
+
 /**
  * Figures out where this equation starts and where it ends.
  *
