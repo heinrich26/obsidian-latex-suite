@@ -170,6 +170,9 @@ span.cm-math.cm-concealed-mathrm, sub.cm-math.cm-concealed-mathrm {
     font-style: normal;
 }
 
+span.cm-math.cm-concealed-control {
+    color: var(--code-comment);
+}
 
 /* Conceal superscripts without changing line height */
 sup.cm-math {
