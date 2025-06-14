@@ -5,7 +5,7 @@ import { EditorView } from "@codemirror/view";
 import { getEquationBounds } from "src/utils/context";
 import { findMatchingBracket } from "src/utils/editor_utils";
 import { ConcealSpec, mkConcealSpec } from "./conceal";
-import { greek, cmd_symbols, map_super, map_sub, fractions, brackets, mathscrcal, mathbb, operators } from "./conceal_maps";
+import { greek, cmd_symbols, map_super, map_sub, fractions, brackets, mathscrcal, mathbb, spaces, tabs, operators } from "./conceal_maps";
 
 
 function escapeRegex(regex: string) {
@@ -121,14 +121,23 @@ function concealSupSub(eqn: string, superscript: boolean, symbolMap: {[key: stri
 			return symbolMap[b];
 		});
 
-
-		specs.push(mkConcealSpec({
-			start: match.index,
-			end: match.index + match[0].length,
-			text: replacement,
-			class: "cm-number",
-			elementType: elementType,
-		}));
+		// oneletter-superscripts can be concealed using superscript characters, that don't look that bad.
+		if (replacement.length == 1 && (superscript ? map_super : map_sub).hasOwnProperty(replacement)) {
+			specs.push(mkConcealSpec({
+				start: match.index,
+				end: match.index + match[0].length,
+				text: ((superscript ? map_super : map_sub) as { [name: string]: string })[replacement],
+				class: null,
+			}));
+		} else {
+			specs.push(mkConcealSpec({
+				start: match.index,
+				end: match.index + match[0].length,
+				text: replacement,
+				class: "cm-number",
+				elementType: elementType,
+			}));
+		}
 	}
 
 	return specs;
@@ -237,10 +246,9 @@ function concealModifiedGreekLetters(eqn: string, greekSymbolMap: {[key: string]
 
 function concealText(eqn: string): ConcealSpec[] {
 
-	const regexStr = "\\\\text{([A-Za-z0-9-.!?() ]+)}";
-	const regex = new RegExp(regexStr, "g");
-
-	const matches = [...eqn.matchAll(regex)];
+	// using the unicode Class L for letters and N for numbers, because in MathJax
+	// you can put anything inside \text, especially when using the text font for it.
+	const matches = [...eqn.matchAll(/\\text{([\pL\pN -.!?() ]+)}/g)];
 
 	const specs: ConcealSpec[] = [];
 
@@ -442,8 +450,11 @@ export function conceal(view: EditorView): ConcealSpec[] {
 					...concealSymbols(eqn, "_", "", map_sub),
 					...concealSymbols(eqn, "\\\\frac", "", fractions),
 					...concealSymbols(eqn, "\\\\", "", ALL_SYMBOLS, undefined, false),
+					...concealSymbols(eqn, "\\\\", "", spaces, "cm-concealed-control", true),
+					...concealSymbols(eqn, "\\\\", "", tabs, "cm-concealed-control", false),
 					...concealSupSub(eqn, true, ALL_SYMBOLS),
 					...concealSupSub(eqn, false, ALL_SYMBOLS),
+
 					...concealModifier(eqn, "hat", "\u0302"),
 					...concealModifier(eqn, "dot", "\u0307"),
 					...concealModifier(eqn, "ddot", "\u0308"),

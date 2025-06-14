@@ -125,8 +125,6 @@ export const cmd_symbols:{[name:string]: string} =
 	"propto": "∝",
 	"rceil": "⌉",
 	"Re": "ℜ",
-	"qquad": " ",
-	"quad": " ",
 	"rightarrow": "→",
 	"Rightarrow": "⇒",
 	"right": "",
@@ -180,9 +178,6 @@ export const cmd_symbols:{[name:string]: string} =
 	"colon": ":",
 
 	"displaystyle": " ",
-	",": " ",
-	":": " ",
-	";": " ",
 
 	"C": "ℂ",
 	"L": "𝕃",
@@ -190,9 +185,22 @@ export const cmd_symbols:{[name:string]: string} =
 	"R": "ℝ",
 	"Z": "ℤ",
 
-	"vecf": "\u20D7f",
-	"vecx": "\u20D7x",
-	"vecy": "\u20D7y",
+	"vecf": "f\u20D7",
+	"vecx": "x\u20D7",
+	"vecy": "y\u20D7",
+};
+
+export const spaces = {
+	"\\": "\u21B2",
+	" ": "\xB7",
+	",": "\xB7",
+	":": "\xB7",
+	";": "\xB7"
+};
+
+export const tabs = {
+	"qquad": "\u2192",
+	"quad": "\u2192"
 };
 
 
