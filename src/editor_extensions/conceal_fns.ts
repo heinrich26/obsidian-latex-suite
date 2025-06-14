@@ -248,7 +248,8 @@ function concealText(eqn: string): ConcealSpec[] {
 
 	// using the unicode Class L for letters and N for numbers, because in MathJax
 	// you can put anything inside \text, especially when using the text font for it.
-	const matches = [...eqn.matchAll(/\\text{([\pL\pN -.!?() ]+)}/g)];
+	// note the use of the unicode flag => braces need to be escaped!
+	const matches = [...eqn.matchAll(/\\text\{([\p{L}\p{N} -.!?()]+)\}/gu)];
 
 	const specs: ConcealSpec[] = [];
 
