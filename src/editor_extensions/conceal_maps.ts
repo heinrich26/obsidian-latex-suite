@@ -2,7 +2,7 @@
 // https://github.com/lervag/vimtex/blob/master/autoload/vimtex/syntax/core.vim
 
 
-export const cmd_symbols:{[name:string]: string} =
+export const cmd_symbols: {[name:string]: string} =
 {
 	"aleph": "ℵ",
 	"amalg": "∐",
@@ -58,6 +58,7 @@ export const cmd_symbols:{[name:string]: string} =
 	"gets": "←",
 	"ge": "≥",
 	"gg": "⟫",
+	"gt": ">",
 	"hbar": "ℏ",
 	"heartsuit": "♡",
 	"hookleftarrow": "↩",
@@ -91,6 +92,7 @@ export const cmd_symbols:{[name:string]: string} =
 	"ll": "≪",
 	"lmoustache": "╭",
 	"lor": "∨",
+	"lt": "<",
 	"mapsto": "↦",
 	"middle": "",
 	"mid": "∣",
@@ -203,8 +205,19 @@ export const tabs = {
 	"quad": "\u2192"
 };
 
+export const spaces: {[name:string]: string} = {
+	" ": "·",
+	",": "·",
+	":": "·",
+	";": "·"
+}
 
-export const operators:string[] =
+export const tabs: {[name:string]: string} = {
+	"qquad": "→",
+	"quad": "→",
+}
+
+export const operators: string[] =
 // From https://www.overleaf.com/learn/latex/Operators
 [
 	"arcsin",

@@ -47,8 +47,13 @@ export function handleMathTooltip(update: ViewUpdate) {
 
 	// HACK: eqnBounds is not null because shouldShowTooltip was true
 	const eqnBounds = ctx.getBounds();
-	const eqn = update.state.sliceDoc(eqnBounds.start, eqnBounds.end);
-
+	let eqn = update.state.sliceDoc(eqnBounds.start, eqnBounds.end);
+	// remove leading chevrons in blockquote context
+	// doesn't handle nested blockquotes
+	if (ctx.mode.quote) {
+		eqn = eqn.replace(/\n\s?>/gm, "\n");
+	}
+	
 	const above = settings.mathPreviewPositionIsAbove;
 	const create = () => {
 		const dom = document.createElement("div");

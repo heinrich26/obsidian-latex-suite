@@ -55,8 +55,6 @@ export class Context {
 
 		ctx.mode.quote = isWithinQuote(state);
 
-		ctx.mode.quote = isWithinQuote(state);
-
 		return ctx;
 	}
 
@@ -118,7 +116,9 @@ export class Context {
 			this.isWithinEnvironment(this.pos, {openSymbol: "\\text{", closeSymbol: "}"}) ||
 			this.isWithinEnvironment(this.pos, {openSymbol: "\\tag{", closeSymbol: "}"}) ||
 			this.isWithinEnvironment(this.pos, {openSymbol: "\\begin{", closeSymbol: "}"}) ||
-			this.isWithinEnvironment(this.pos, {openSymbol: "\\end{", closeSymbol: "}"})
+			this.isWithinEnvironment(this.pos, {openSymbol: "\\end{", closeSymbol: "}"}) ||
+			this.isWithinEnvironment(this.pos, {openSymbol: "\\mathrm{", closeSymbol: "}"}) ||
+			this.isWithinEnvironment(this.pos, {openSymbol: "\\color{", closeSymbol: "}"})
 		);
 	}
 

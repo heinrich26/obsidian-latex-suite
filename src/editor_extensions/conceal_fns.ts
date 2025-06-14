@@ -5,7 +5,7 @@ import { EditorView } from "@codemirror/view";
 import { getEquationBounds } from "src/utils/context";
 import { findMatchingBracket } from "src/utils/editor_utils";
 import { ConcealSpec, mkConcealSpec } from "./conceal";
-import { greek, cmd_symbols, map_super, map_sub, fractions, brackets, mathscrcal, mathbb, spaces, tabs, operators } from "./conceal_maps";
+import { greek, cmd_symbols, spaces, tabs, map_super, map_sub, fractions, brackets, mathscrcal, mathbb, operators } from "./conceal_maps";
 
 
 function escapeRegex(regex: string) {
@@ -386,7 +386,7 @@ function concealWrapping(eqn: string, symbol: string, newPrefix: string, newSuff
 function concealFraction(eqn: string): ConcealSpec[] {
 	const concealSpecs: ConcealSpec[] = [];
 
-	for (const match of eqn.matchAll(/\\(frac){/g)) {
+	for (const match of eqn.matchAll(/\\(frac|dfrac|tfrac|gfrac){/g)) {
 		// index of the closing bracket of the numerator
 		const numeratorEnd = findMatchingBracket(eqn, match.index, "{", "}", false);
 		if (numeratorEnd === -1) continue;
@@ -418,6 +418,28 @@ function concealFraction(eqn: string): ConcealSpec[] {
 	}
 
 	return concealSpecs;
+}
+
+function concealOperatorname(eqn: string): ConcealSpec[] {
+	const regexStr = "\\\\operatorname{([A-Za-z]+)}";
+	const regex = new RegExp(regexStr, "g");
+	const matches = [...eqn.matchAll(regex)];
+	const specs: ConcealSpec[] = [];
+
+	for (const match of matches) {
+		const value = match[1];
+		const start2 = match.index!;
+		const end2 = start2 + match[0].length;
+
+		specs.push(mkConcealSpec({
+			start: start2,
+			end: end2,
+			text: value,
+			class: "cm-concealed-mathrm cm-variable-2"
+		}));
+	}
+
+	return specs;
 }
 
 export function conceal(view: EditorView): ConcealSpec[] {
@@ -472,7 +494,8 @@ export function conceal(view: EditorView): ConcealSpec[] {
 					...concealWrapping(eqn, "abs", "|", "|"),
 					...concealWrapping(eqn, "norm", "||", "||"),
 					...concealFraction(eqn),
-					...concealOperators(eqn, operators)
+					...concealOperators(eqn, operators),
+					...concealOperatorname(eqn)
 				];
 
 				// Make the 'start' and 'end' fields represent positions in the entire
