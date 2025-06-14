@@ -192,27 +192,15 @@ export const cmd_symbols: {[name:string]: string} =
 	"vecy": "y\u20D7",
 };
 
-export const spaces = {
+export const spaces: { [name: string]: string } = {
 	"\\": "\u21B2",
-	" ": "\xB7",
-	",": "\xB7",
-	":": "\xB7",
-	";": "\xB7"
-};
-
-export const tabs = {
-	"qquad": "\u2192",
-	"quad": "\u2192"
-};
-
-export const spaces: {[name:string]: string} = {
 	" ": "·",
 	",": "·",
 	":": "·",
 	";": "·"
 }
 
-export const tabs: {[name:string]: string} = {
+export const tabs: { [name:string]: string} = {
 	"qquad": "→",
 	"quad": "→",
 }
